@@ -20,6 +20,10 @@ body {
   background: #f0f0f0;
 }
 
+button {
+  cursor: pointer;
+}
+
 .todo-wrapper {
   flex-grow: 1;
   display: flex;
@@ -110,4 +114,29 @@ ul {
   flex-shrink: 0;
   display: flex;
   gap: 0.3rem;
+}
+
+.edit-section {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.edit-input {
+  font-size: 1.2rem;
+  padding: 0.3rem;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  width: 95%;
+}
+
+.edit-button, .move-button {
+  border: none;
+  border-radius: 4px;
+}
+
+.task-item.editing {
+  background-color: #fff3cd; /* soft yellow */
 }

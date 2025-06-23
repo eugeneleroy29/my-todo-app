@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp, faArrowDown, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const TodoList = ({ tasks, setTasks }) => {
 
@@ -35,7 +35,7 @@ const TodoList = ({ tasks, setTasks }) => {
     }
   }
 
-  function handleTaskDOwn (index) {
+  function handleTaskDown (index) {
     if (index < tasks.length - 1) {
       const updatedTasks = [...tasks];
       [updatedTasks[index], updatedTasks[index + 1]] = [updatedTasks[index + 1], updatedTasks[index]];
@@ -69,7 +69,7 @@ const TodoList = ({ tasks, setTasks }) => {
     <section className="todo-wrapper">
       <div className="input-container">
         <input 
-            text="text"
+            type="text"
             placeholder="Enter task..."
             required
             value={newTask}
@@ -80,13 +80,43 @@ const TodoList = ({ tasks, setTasks }) => {
       <main className="todo-container">
           <ul>
               {tasks.map((task, index) => 
-                <li key={index} className="task-item">
-                    <span className="task-text">{task}</span>
-                    <div className="task-actions">
-                      <button className="delete-button" onClick={() => handleDeleteTask(index)}>Delete</button>
-                      <button className="move-button" onClick={() => handleTaskUp(index)}><FontAwesomeIcon icon={faArrowUp} /></button>
-                      <button className="move-button" onClick={() => handleTaskDOwn(index)}><FontAwesomeIcon icon={faArrowDown} /></button>
-                    </div>
+                <li key={index} className={`task-item ${editIndex === index ? "editing" : ""}`}>
+                  <span className="task-text">
+                    {editIndex === index ? (
+                      <input
+                        type="text"
+                        value={editText}
+                        onChange={handleEditTextChange}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") handleSaveEdit();
+                          if (e.key === "Escape") handleCancelEdit();
+                        }}
+                        className="edit-input"
+                      />
+                    ) : (
+                      task
+                    )}
+                  </span>
+
+                  <div className={editIndex === index ? "edit-section" : "task-actions"}>
+                    {editIndex === index ? (
+                      <>
+                        <button onClick={handleSaveEdit} disabled={!editText.trim()}>
+                          <FontAwesomeIcon icon={faCheck} />
+                        </button>
+                        <button onClick={handleCancelEdit}>
+                          <FontAwesomeIcon icon={faXmark} />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button className="move-button" onClick={() => handleTaskUp(index)}><FontAwesomeIcon icon={faArrowUp} /></button>
+                        <button className="move-button" onClick={() => handleTaskDown(index)}><FontAwesomeIcon icon={faArrowDown} /></button>
+                        <button className="edit-button" onClick={() => handleEditTask(index)}>Edit</button>
+                        <button className="delete-button" onClick={() => handleDeleteTask(index)}>Delete</button>
+                      </>
+                    )}
+                  </div>
                 </li>
               )}
           </ul>
