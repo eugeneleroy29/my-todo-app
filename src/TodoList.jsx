@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,6 +7,8 @@ const TodoList = ({ tasks, setTasks }) => {
   const [newTask, setNewTask] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editText, setEditText] = useState("");
+
+  const editInputRef = useRef(null);
 
   function handleInputChange (event) {
     setNewTask(event.target.value);
@@ -65,6 +67,17 @@ const TodoList = ({ tasks, setTasks }) => {
     setEditText("");
   }
 
+  function handleClearAll() {
+    setTasks([]);
+    localStorage.removeItem("my-tasks");
+  }
+
+  useEffect(() => {
+    if (editIndex !== null && editInputRef.current) {
+      editInputRef.current.focus();
+    }
+  });
+
   return (
     <section className="todo-wrapper">
       <div className="input-container">
@@ -74,8 +87,12 @@ const TodoList = ({ tasks, setTasks }) => {
             required
             value={newTask}
             onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleAddTask();
+            }}
           />
           <button className="add-button" onClick={handleAddTask}>Add Task</button>
+          <button className="clear-button" onClick={handleClearAll}>Clear All</button>
       </div> 
       <main className="todo-container">
           <ul>
@@ -92,6 +109,7 @@ const TodoList = ({ tasks, setTasks }) => {
                           if (e.key === "Escape") handleCancelEdit();
                         }}
                         className="edit-input"
+                        ref={editInputRef}
                       />
                     ) : (
                       task
@@ -101,10 +119,10 @@ const TodoList = ({ tasks, setTasks }) => {
                   <div className={editIndex === index ? "edit-section" : "task-actions"}>
                     {editIndex === index ? (
                       <>
-                        <button onClick={handleSaveEdit} disabled={!editText.trim()}>
+                        <button className="save-or-cancel-button" onClick={handleSaveEdit} disabled={!editText.trim()}>
                           <FontAwesomeIcon icon={faCheck} />
                         </button>
-                        <button onClick={handleCancelEdit}>
+                        <button className="save-or-cancel-button" onClick={handleCancelEdit}>
                           <FontAwesomeIcon icon={faXmark} />
                         </button>
                       </>

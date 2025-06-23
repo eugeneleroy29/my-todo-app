@@ -16,7 +16,6 @@ body {
 
 .header {
   flex-shrink: 0;
-  padding: 1rem;
   background: #f0f0f0;
 }
 
@@ -53,6 +52,18 @@ button {
   color: white;
 }
 
+.input-container button:hover {
+  background-color: hsl(120, 80%, 25%);
+}
+
+.input-container .clear-button {
+  background-color: hsl(0, 100%, 50%);
+}
+
+.input-container .clear-button:hover {
+  background-color: hsl(0, 100%, 40%);
+}
+
 .todo-container {
   flex-grow: 1;
   overflow-y: auto;
@@ -72,16 +83,19 @@ button {
 }
 
 .delete-button {
-  background-color: red;
+  background-color: hsl(0, 100%, 50%);
   border: none;
   border-radius: 0.3rem;
   color: white;
 }
 
+.delete-button:hover {
+  background-color: hsl(0, 100%, 40%);
+}
+
 .footer {
   flex-shrink: 0;
   text-align: center;
-  padding: 1rem;
   background: #f0f0f0;
   font-size: 1.2rem;
 }
@@ -107,7 +121,9 @@ ul {
   flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 0.5rem;
+  padding-left: 0.8rem;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .task-actions {
@@ -132,11 +148,24 @@ ul {
   width: 95%;
 }
 
-.edit-button, .move-button {
+.edit-button, .move-button, .save-or-cancel-button {
   border: none;
   border-radius: 4px;
+  background-color: hsl(0, 2%, 70%);
+}
+
+.edit-button:hover, .move-button:hover, .save-or-cancel-button:hover {
+  background-color: hsl(0, 2%, 60%);
 }
 
 .task-item.editing {
   background-color: #fff3cd; /* soft yellow */
+}
+
+.header, .footer {
+  padding: 1rem;
+}
+
+.header h1, .footer h3 {
+  margin: 0;
 }
