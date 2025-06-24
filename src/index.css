@@ -31,7 +31,11 @@ button {
 }
 
 .input-container {
-  margin: 1rem 0 1rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem;
 }
 
 .input-container input {
@@ -39,6 +43,8 @@ button {
   padding: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
+  flex: 1 1 200px;
+  max-width: 100%;
 }
 
 .input-container button {
@@ -50,6 +56,8 @@ button {
   border-radius: 5px;
   background-color: hsl(120, 80%, 35%);
   color: white;
+  flex: 1 1 200px;
+  max-width: 100%;
 }
 
 .input-container button:hover {
@@ -58,6 +66,7 @@ button {
 
 .input-container .clear-button {
   background-color: hsl(0, 100%, 50%);
+  margin: 0;
 }
 
 .input-container .clear-button:hover {
@@ -67,7 +76,7 @@ button {
 .todo-container {
   flex-grow: 1;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .todo-container ul button {
@@ -126,17 +135,13 @@ ul {
   font-weight: bold;
 }
 
-.task-actions {
-  flex-shrink: 0;
-  display: flex;
-  gap: 0.3rem;
-}
-
+.task-actions,
 .edit-section {
   display: flex;
+  flex-wrap: wrap;           /* ✨ new */
   gap: 0.3rem;
-  align-items: center;
   justify-content: flex-end;
+  align-items: center;
   flex-shrink: 0;
 }
 
@@ -168,4 +173,39 @@ ul {
 
 .header h1, .footer h3 {
   margin: 0;
+}
+
+@media (max-width: 480px) {
+  .task-text {
+    font-size: 1rem;
+  }
+
+  .input-container input,
+  .edit-input {
+    font-size: 1rem;
+  }
+
+  .input-container button,
+  .todo-container ul button {
+    font-size: 1rem;
+    padding: 0.4rem;
+  }
+
+  .task-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .task-actions,
+  .edit-section {
+    justify-content: flex-start;
+  }
+
+  .footer h3 {
+  font-size: 1rem;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
 }
