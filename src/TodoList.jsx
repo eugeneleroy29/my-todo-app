@@ -7,6 +7,7 @@ const TodoList = ({ tasks, setTasks }) => {
   const [newTask, setNewTask] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editText, setEditText] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
 
   const editInputRef = useRef(null);
 
@@ -79,7 +80,7 @@ const TodoList = ({ tasks, setTasks }) => {
   });
 
   return (
-    <section className="todo-wrapper">
+    <section className={`todo-wrapper ${darkMode ? "dark-mode" : ""}`}>
       <div className="input-container">
         <input 
             type="text"

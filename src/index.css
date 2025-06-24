@@ -15,7 +15,9 @@ body {
 }
 
 .header {
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: #f0f0f0;
 }
 
@@ -208,4 +210,59 @@ ul {
   .header h1 {
     font-size: 2rem;
   }
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark-mode .header,
+body.dark-mode .footer,
+body.dark-mode .todo-wrapper {
+  background-color: #1e1e1e;
+  border-color: #333;
+}
+
+body.dark-mode input,
+body.dark-mode .edit-input {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .task-item {
+  background-color: #2a2a2a;
+}
+
+.toggle-mode-button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: hsl(210, 10%, 30%);
+  color: white;
+  cursor: pointer;
+}
+
+.toggle-mode-button:hover {
+  background-color: hsl(210, 10%, 40%);
+}
+
+/* Preserve red & green button colors */
+body.dark-mode .clear-button {
+  background-color: hsl(0, 100%, 50%);
+}
+
+body.dark-mode .clear-button:hover {
+  background-color: hsl(0, 100%, 40%);
+}
+
+body.dark-mode .add-button {
+  background-color: hsl(120, 80%, 35%);
+}
+
+body.dark-mode .add-button:hover {
+  background-color: hsl(120, 80%, 25%);
 }
