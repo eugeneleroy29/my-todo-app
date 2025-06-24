@@ -2,12 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const TodoList = ({ tasks, setTasks }) => {
+const TodoList = ({ tasks, setTasks, darkMode }) => {
 
   const [newTask, setNewTask] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editText, setEditText] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
 
   const editInputRef = useRef(null);
 

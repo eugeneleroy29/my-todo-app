@@ -9,7 +9,7 @@ body {
   height: 100vh;
   max-width: 800px;
   margin: 0 auto;
-  border: 1px solid;
+  /* border: 1px solid; */
   display: flex;
   flex-direction: column;
 }
@@ -45,7 +45,7 @@ button {
   padding: 0.5rem;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  flex: 1 1 200px;
+  flex: 1;
   max-width: 100%;
 }
 
@@ -58,8 +58,9 @@ button {
   border-radius: 5px;
   background-color: hsl(120, 80%, 35%);
   color: white;
-  flex: 1 1 200px;
+  flex: 1;
   max-width: 100%;
+  min-width: 0;
 }
 
 .input-container button:hover {
@@ -250,6 +251,16 @@ body.dark-mode .task-item {
   background-color: hsl(210, 10%, 40%);
 }
 
+.theme-icon {
+  font-size: 1.5rem;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  display: inline-block;
+}
+
+.theme-icon.rotate {
+  transform: rotate(180deg);
+}
+
 /* Preserve red & green button colors */
 body.dark-mode .clear-button {
   background-color: hsl(0, 100%, 50%);
@@ -266,3 +277,4 @@ body.dark-mode .add-button {
 body.dark-mode .add-button:hover {
   background-color: hsl(120, 80%, 25%);
 }
+
