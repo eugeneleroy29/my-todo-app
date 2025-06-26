@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("my-tasks", JSON.stringify(tasks));
-  });
+  }, [tasks]);
 
   useEffect(() => {
     document.body.classList.toggle("dark-mode", darkMode);
