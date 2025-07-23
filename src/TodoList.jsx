@@ -26,9 +26,19 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
 
   function handleAddTask() {
     if (newTask.trim() !== "") {
-      setTasks((t) => [...t, newTask]);
+      const newTaskObj = {
+        text: newTask.trim(),
+        completed: false,
+      };
+      setTasks((t) => [...t, newTaskObj]);
       setNewTask("");
     }
+  }
+
+  function toggleTaskCompletion(index) {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].completed = !updatedTasks[index].completed;
+    setTasks(updatedTasks);
   }
 
   function handleDeleteTask(index) {
@@ -68,16 +78,20 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
 
   function handleEditTask(index) {
     setEditIndex(index);
-    setEditText(tasks[index]);
+    setEditText(tasks[index].text);
   }
 
   function handleEditTextChange(e) {
     setEditText(e.target.value);
+    autoResizeTextarea(editInputRef);
   }
 
   function handleSaveEdit() {
     const updatedTasks = [...tasks];
-    updatedTasks[editIndex] = editText.trim() || tasks[editIndex];
+    updatedTasks[editIndex] = {
+      ...updatedTasks[editIndex],
+      text: editText.trim() || updatedTasks[editIndex].text,
+    };
     setTasks(updatedTasks);
     setEditIndex(null);
     setEditText("");
@@ -100,8 +114,9 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
   useEffect(() => {
     if (editIndex !== null && editInputRef.current) {
       editInputRef.current.focus();
+      autoResizeTextarea(editInputRef);
     }
-  });
+  }, [editText, editIndex]);
 
   function confirmAction() {
     if (modalAction === "delete" && selectedIndex !== null) {
@@ -123,6 +138,13 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
     setModalOpen(false);
     setSelectedIndex(null);
     setModalAction(null);
+  }
+
+  function autoResizeTextarea(ref) {
+    if (ref.current) {
+      ref.current.style.height = "auto";
+      ref.current.style.height = ref.current.scrollHeight + "px";
+    }
   }
 
   return (
@@ -153,7 +175,17 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
               key={index}
               className={`task-item ${editIndex === index ? "editing" : ""}`}
             >
-              <span className="task-text">
+              <label className="task-label">
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => toggleTaskCompletion(index)}
+                  className="task-checkbox"
+                  title={
+                    task.completed ? "Mark as incomplete" : "Mark as complete"
+                  }
+                />
+
                 {editIndex === index ? (
                   <div className="edit-input-wrapper">
                     <textarea
@@ -172,9 +204,19 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
                     />
                   </div>
                 ) : (
-                  task
+                  <span
+                    className={`task-text ${task.completed ? "completed" : ""}`}
+                  >
+                    {task.text}
+                    {task.completed && (
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        className="completed-icon"
+                      />
+                    )}
+                  </span>
                 )}
-              </span>
+              </label>
 
               <div
                 className={
@@ -214,6 +256,12 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
                     <button
                       className="edit-button"
                       onClick={() => handleEditTask(index)}
+                      disabled={task.completed}
+                      title={
+                        task.completed
+                          ? "Completed tasks cannot be edited"
+                          : "Edit task"
+                      }
                     >
                       <FontAwesomeIcon icon={faPenToSquare} />
                     </button>
