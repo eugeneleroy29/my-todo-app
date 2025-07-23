@@ -5,6 +5,8 @@ import {
   faArrowDown,
   faCheck,
   faXmark,
+  faPenToSquare,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import ConfirmModal from "./ConfirmModal";
 
@@ -101,16 +103,16 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
     }
   });
 
-  function confirmAction () {
-    if (modalAction === 'delete' && selectedIndex !== null ) {
+  function confirmAction() {
+    if (modalAction === "delete" && selectedIndex !== null) {
       setTasks(tasks.filter((_, i) => i !== selectedIndex));
       if (editIndex === selectedIndex) {
         setEditIndex(null);
-        setEditText('');
+        setEditText("");
       }
-    } else if (modalAction === 'clear') {
+    } else if (modalAction === "clear") {
       setTasks([]);
-      localStorage.removeItem('my-tasks');
+      localStorage.removeItem("my-tasks");
     }
     setModalOpen(false);
     setSelectedIndex(null);
@@ -127,6 +129,7 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
     <section className={`todo-wrapper ${darkMode ? "dark-mode" : ""}`}>
       <div className="input-container">
         <input
+          className="input-text"
           type="text"
           placeholder="Enter task..."
           required
@@ -152,17 +155,22 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
             >
               <span className="task-text">
                 {editIndex === index ? (
-                  <input
-                    type="text"
-                    value={editText}
-                    onChange={handleEditTextChange}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") handleSaveEdit();
-                      if (e.key === "Escape") handleCancelEdit();
-                    }}
-                    className="edit-input"
-                    ref={editInputRef}
-                  />
+                  <div className="edit-input-wrapper">
+                    <textarea
+                      value={editText}
+                      onChange={handleEditTextChange}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSaveEdit();
+                        }
+                        if (e.key === "Escape") handleCancelEdit();
+                      }}
+                      className="edit-input"
+                      ref={editInputRef}
+                      rows={1}
+                    />
+                  </div>
                 ) : (
                   task
                 )}
@@ -207,13 +215,13 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
                       className="edit-button"
                       onClick={() => handleEditTask(index)}
                     >
-                      Edit
+                      <FontAwesomeIcon icon={faPenToSquare} />
                     </button>
                     <button
                       className="delete-button"
                       onClick={() => handleDeleteTask(index)}
                     >
-                      Delete
+                      <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </>
                 )}
@@ -222,12 +230,12 @@ const TodoList = ({ tasks, setTasks, darkMode }) => {
           ))}
         </ul>
       </main>
-      <ConfirmModal 
+      <ConfirmModal
         isOpen={modalOpen}
         message={
-          modalAction === 'clear'
-            ? 'Are you sure you want to clear all tasks?'
-            : 'Are you sure you want to delete this task?'
+          modalAction === "clear"
+            ? "Are you sure you want to clear all tasks?"
+            : "Are you sure you want to delete this task?"
         }
         onConfirm={confirmAction}
         onCancel={cancelAction}

@@ -29,7 +29,7 @@ button {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  min-height: 10rem;
 }
 
 .input-container {
@@ -58,7 +58,7 @@ button {
   border-radius: 5px;
   background-color: hsl(120, 80%, 35%);
   color: white;
-  flex: 1;
+  flex: none;
   max-width: 100%;
   min-width: 0;
 }
@@ -70,6 +70,7 @@ button {
 .input-container .clear-button {
   background-color: hsl(0, 100%, 50%);
   margin: 0;
+  width: 8rem;
 }
 
 .input-container .clear-button:hover {
@@ -80,6 +81,11 @@ button {
   flex-grow: 1;
   overflow-y: auto;
   padding: 0.5rem 1rem;
+}
+
+.todo-container ul {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .todo-container ul button {
@@ -120,72 +126,104 @@ ul {
 
 .task-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 0.5rem;
   background-color: #e9e9e9;
   margin: 0.5rem 0;
   border-radius: 5px;
+  flex-wrap: nowrap;
 }
 
 .task-text {
+  display: inline-block;
   flex-grow: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 0.8rem;
+  flex-shrink: 1;
+  min-width: 0;
   font-size: 1.2rem;
   font-weight: bold;
+  padding-left: 0.5rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 60ch; /* limits text width to approx 60 characters */
 }
 
 .task-actions,
 .edit-section {
   display: flex;
-  flex-wrap: wrap;           /* ✨ new */
   gap: 0.3rem;
-  justify-content: flex-end;
-  align-items: center;
   flex-shrink: 0;
+  flex-wrap: nowrap;
 }
 
 .edit-input {
   font-size: 1.2rem;
-  padding: 0.3rem;
+  padding: 0.5rem;
   border-radius: 4px;
   border: 1px solid #aaa;
-  width: 95%;
+  width: 100%;
+  resize: vertical;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  min-height: 3rem;
+  height: auto;
+  overflow-y: auto;
 }
 
-.edit-button, .move-button, .save-or-cancel-button {
+.edit-button,
+.move-button,
+.save-or-cancel-button {
   border: none;
   border-radius: 4px;
   background-color: hsl(0, 2%, 70%);
 }
 
-.edit-button:hover, .move-button:hover, .save-or-cancel-button:hover {
+.edit-button:hover,
+.move-button:hover,
+.save-or-cancel-button:hover {
   background-color: hsl(0, 2%, 60%);
 }
 
 .task-item.editing {
-  background-color: #fff3cd; /* soft yellow */
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
-.header, .footer {
+.task-text input.edit-input {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.header,
+.footer {
   padding: 1rem;
 }
 
-.header h1, .footer h3 {
+.header h1,
+.footer h3 {
   margin: 0;
 }
 
+.edit-input-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
 @media (max-width: 480px) {
-  .task-text {
+  .input-container input {
     font-size: 1rem;
   }
 
-  .input-container input,
   .edit-input {
     font-size: 1rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .input-container button,
@@ -194,18 +232,46 @@ ul {
     padding: 0.4rem;
   }
 
-  .task-item {
-    flex-direction: column;
-    align-items: stretch;
+  .input-container input {
+    flex: 2;
   }
+
+  .input-container button {
+    flex: 1;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    padding: 0.6rem 0;
+  }
+
+  .task-item {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .task-text {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: calc(100% - 180px);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
 
   .task-actions,
   .edit-section {
-    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+
+  .task-actions button,
+  .edit-section button {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
   }
 
   .footer h3 {
-  font-size: 1rem;
+    font-size: 1rem;
   }
 
   .header h1 {
@@ -277,4 +343,3 @@ body.dark-mode .add-button {
 body.dark-mode .add-button:hover {
   background-color: hsl(120, 80%, 25%);
 }
-
